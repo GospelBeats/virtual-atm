@@ -7,7 +7,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <title>Virtual ATM</title>
-
+    
     <style>
     .bg {
 
@@ -42,17 +42,16 @@
                     <p id="show-balance" class="w3-sand w3-round w3-text-blue"></p>
               </form>
             
-              <div id="hide" class="w3-container w3-card w3-round-large w3-white" style="max-width: 400px; margin: auto; background: rgba(241, 239, 239, 0.479)">
+              <div id="hide" class="w3-container w3-card w3-round-large w3-white" style="max-width: 500px; margin: auto; background: rgba(241, 239, 239, 0.479)">
                 
-                <ul class="li" style="list-style-type: none">
+                <ul class="li" style="list-style-type: none; text-align: left">
                     <li id="zero">*** No Transactions ***</li>
                 </ul>
                 <button class="w3-button w3-btn w3-hover-opacity w3-round w3-light-grey w3-margin-bottom">Close</button>
               </div>
 
         </div>
-
-
+        <script src="moment.js"></script>   
     <script>
 
     $(document).ready(function(){
@@ -61,6 +60,7 @@
         let balance = 0;
         let money = 0;
         $('#hide').hide();
+        var now = moment().format('MMM DD h:mm A');
 
 
         // deposit function ////////////////////////////////////////////////////////////
@@ -76,7 +76,7 @@
             $("#deposit").val("");
             $("#error").text("Deposit of $" + money + " was Successful!!").css("color", "blue"); 
             setTimeout(function(){ $("#error").text(""); }, 1500);
-            let li = $("<li>Deposit of $" + money + " was made</li>");
+            let li = $("<li>Deposit of $" + money + " was made on " + now + "</li><br>");
             $(".li").append(li);
             $('#zero').hide();
             }
@@ -102,7 +102,7 @@
             $("#withdraw").val("");           
             $("#error").text("Withdrawl of $" + subtract + " was Successful!!").css("color", "blue"); 
             setTimeout(function(){ $("#error").text(""); }, 1500);
-            let li = $("<li>Withdrawl of $" + subtract + " was made</li>");
+            let li = $("<li>Withdrawl of $" + subtract + " was made on " + now + "</li><br>");
             $(".li").append(li);
             $('#zero').hide();
             }
