@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <title>Virtual ATM</title>
+
+    <style>
+    .bg {
+
+        background-image: url('atm3.jpg');
+        background-position: center;
+        background-repeat: no-repeat;
+        /* background-size: cover; */
+         
+    }
+    </style>
+</head>
+<body class="bg">
+
+        <div class="w3-center w3-padding-64" id="ATM">
+                <span class="w3-xlarge w3-padding w3-border"><strong>ATM</strong></span>
+                <p id="error"></p>
+              <form class="w3-container w3-padding-32 w3-round-large w3-card" style="max-width: 400px; margin: auto; background: rgba(0, 0, 0, 0.2);"> 
+                    
+                    <input id="deposit-btn" class="w3-button w3-btn w3-hover-opacity w3-round w3-blue" type="button" value="Deposit" style="float: left" />
+                    <div style="overflow: hidden; padding-left: 2em;">
+                    <input type="text" id="deposit" placeholder="Enter Deposit Amount" style="width: 100%; height: 40px; padding: 10px" />
+                    </div>​
+                    <br>
+                    <input id="withdraw-btn" class="w3-button w3-btn w3-hover-opacity w3-round w3-blue" type="button" value="Withdraw" style="float: left" />
+                    <div style="overflow: hidden; padding-left: 1em;">
+                    <input type="text" id="withdraw" placeholder="Enter Withdraw Amount" style="width: 100%; height: 40px; padding: 10px" />
+                    </div>​
+                
+                    <input id="view-balance" class="w3-button w3-block w3-black w3-round-medium" type="button" value="View Your Balance" />
+                    <br>
+                    <input id="view-statement" class="w3-button w3-block w3-black w3-round-medium" type="button" value="View Your Statement" />
+                    <p id="show-balance" class="w3-sand w3-round w3-text-blue"></p>
+              </form>
+            
+              <div id="hide" class="w3-container w3-card w3-round-large w3-white" style="max-width: 400px; margin: auto; background: rgba(241, 239, 239, 0.479)">
+                
+                <ul class="li" style="list-style-type: none">
+                    <li id="zero">*** No Transactions ***</li>
+                </ul>
+                <button class="w3-button w3-btn w3-hover-opacity w3-round w3-light-grey w3-margin-bottom">Close</button>
+              </div>
+
+        </div>
+
+
+    <script>
+
+    $(document).ready(function(){
+
+        // global variables ///////////////////////////////////////////////////////
+        let balance = 0;
+        let money = 0;
+        $('#hide').hide();
+
+
+        // deposit function ////////////////////////////////////////////////////////////
+            $("#deposit-btn").on('click', function(e){
+            e.preventDefault(); 
+            money = $("#deposit").val();
+            if(isNaN(money) || money === ''|| money < 0){
+            $("#error").text("Please Enter A Positive Numeric Value").css("color", "red").css("font-size", "18px"); 
+            setTimeout(function(){ $("#error").text(""); }, 1500);		
+            $("#deposit").val("");	
+            } else {
+            balance += parseFloat(money);
+            $("#deposit").val("");
+            $("#error").text("Deposit of $" + money + " was Successful!!").css("color", "blue"); 
+            setTimeout(function(){ $("#error").text(""); }, 1500);
+            let li = $("<li>Deposit of $" + money + " was made</li>");
+            $(".li").append(li);
+            $('#zero').hide();
+            }
+            }); // end of deposit function ////////////////////////////////////////////////
+            
+
+        // withdraw function ///////////////////////////////////////////////////////
+        $("#withdraw-btn").on('click', function(e){
+            e.preventDefault();
+            let subtract = $("#withdraw").val();
+            if(isNaN(subtract) || subtract === ''|| subtract < 0){
+            $("#error").text("Please Enter A Positive Numeric Value").css("color", "red"); 
+            setTimeout(function(){ $("#error").text(""); }, 1500);		
+            $("#withdraw").val("");	
+            }            
+            else if (subtract > balance){
+            $("#error").text("You Don't Have Enough Funds To Make A Withdrawl").css("color", "red"); 
+            setTimeout(function(){ $("#error").text(""); }, 2000);		
+            $("#withdraw").val("");	    
+            }
+            else {
+            balance -= parseFloat(subtract);
+            $("#withdraw").val("");           
+            $("#error").text("Withdrawl of $" + subtract + " was Successful!!").css("color", "blue"); 
+            setTimeout(function(){ $("#error").text(""); }, 1500);
+            let li = $("<li>Withdrawl of $" + subtract + " was made</li>");
+            $(".li").append(li);
+            $('#zero').hide();
+            }
+            }); // end of withdraw function ////////////////////////////////////////////////
+
+
+        // show balance functin ///////////////////////////////////////////////////////////
+           $("#view-balance").on('click', function(e) {
+            e.preventDefault();       
+            showBalance();        
+           });
+            function showBalance(){                    
+            $("#show-balance").text("Your Balanace is: $" + balance).css("color", "blue"); 
+            setTimeout(function(){ 
+                $("#show-balance").text(""); 
+                }, 3000);
+            } // end of show balance function /////////////////////////////////////////////
+
+
+        // view statement function ////////////////////////////////////////////////////////
+        $('#view-statement').on('click', function(e) {
+            e.preventDefault();
+            $('#hide').show();
+            $('button').on('click', function(){
+            $('#hide').hide();
+            });
+        });
+        /////////////////////////////////////////////////////////////////////////////////// 
+
+
+    }); // end of doc ready
+   
+
+
+    </script>
+    
+</body>
+</html>
